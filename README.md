@@ -82,6 +82,14 @@ go run main.go
 ## Docker
 See: https://hub.docker.com/r/gosonic/sonic
 
+### Run with docker-compose
+```bash
+docker compose up --build
+```
+Then open http://localhost:8080/admin#install
+
+Data (conf/db/uploads/theme) will be persisted in `./data`.
+
 ## Theme ecology
 
 | Theme   | 

@@ -74,6 +74,14 @@ go run main.go
 ## Docker
 See: https://hub.docker.com/r/gosonic/sonic
 
+### 使用 docker-compose 运行
+```bash
+docker compose up --build
+```
+然后打开 http://localhost:8080/admin#install
+
+数据（配置/数据库/上传/主题）会持久化到 `./data` 目录。
+
 ## 主题生态
 
 | Theme   | 
