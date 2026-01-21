@@ -1,11 +1,9 @@
 services:
   sonic:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/doubaoyui/sonic:latest
+    pull_policy: always
     ports:
       - "8080:8080"
     volumes:
       - ./data:/sonic
     restart: unless-stopped
-
