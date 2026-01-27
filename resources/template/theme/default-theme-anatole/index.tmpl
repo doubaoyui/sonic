@@ -1,0 +1,124 @@
+{{- define "caicai_anatole/index" -}}
+    <!DOCTYPE html>
+    <html lang="{{or .lang .blog_locale}}">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>{{.blog_title}}</title>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+        <meta name="format-detection" content="telephone=no"/>
+        <meta name="renderer" content="webkit"/>
+        <meta name="author" content="{{ .user.Nickname}}"/>
+        <meta name="keywords" content="{{ .meta_keywords}}"/>
+        <meta name="description" content="{{ .meta_description}}"/>
+        <link rel="alternate" type="application/rss+xml" title="atom 1.0" href="{{ .atom_url}}"/>
+        {{template "global.head" .}}
+        {{template "caicai_anatole/module/styles" .}}
+    </head>
+    <body x-data="{ postSearchVisible: false }">
+    <div class="main landing-main">
+        {{template "caicai_anatole/module/page-top" .}}
+        <div class="content landing-content">
+            <div class="landing-hero">
+                <div class="landing-hero-text">
+                    <h1 class="landing-title">{{or .settings.landing_headline .blog_title}}</h1>
+                    {{if .settings.landing_slogan}}
+                        <p class="landing-subtitle">{{.settings.landing_slogan}}</p>
+                    {{end}}
+                    {{template "caicai_anatole/module/download-buttons" .}}
+                    {{if .settings.landing_note}}
+                        <div class="landing-note">{{.settings.landing_note}}</div>
+                    {{else}}
+                        <div class="landing-note">{{t (or .lang .blog_locale) "landing.available_for" "Available for macOS, Linux, and Windows"}}</div>
+                    {{end}}
+                </div>
+            </div>
+
+            {{$tabs := list}}
+            {{range $i := until 6}}
+                {{$idx := add $i 1}}
+                {{$enabledKey := printf "landing_tab_%d_enabled" $idx}}
+                {{$titleKey := printf "landing_tab_%d_title" $idx}}
+                {{$sloganKey := printf "landing_tab_%d_slogan" $idx}}
+                {{$mediaTypeKey := printf "landing_tab_%d_media_type" $idx}}
+                {{$mediaURLKey := printf "landing_tab_%d_media_url" $idx}}
+                {{$enabled := index $.settings $enabledKey}}
+                {{$title := index $.settings $titleKey}}
+                {{$slogan := index $.settings $sloganKey}}
+                {{$mediaType := index $.settings $mediaTypeKey}}
+                {{$mediaURL := index $.settings $mediaURLKey}}
+                {{if and $enabled $title}}
+                    {{$tabs = append $tabs (dict "title" $title "slogan" $slogan "mediaType" $mediaType "mediaUrl" $mediaURL)}}
+                {{end}}
+            {{end}}
+            {{if $tabs}}
+                <div class="landing-showcase" data-landing-tabs>
+                    <div class="landing-showcase-tabs" role="tablist" aria-label="Showcase tabs">
+                        {{range $i, $t := $tabs}}
+                            {{$title := index $t "title"}}
+                            <button class="landing-showcase-tab{{if eq $i 0}} is-active{{end}}"
+                                    type="button"
+                                    role="tab"
+                                    aria-selected="{{if eq $i 0}}true{{else}}false{{end}}"
+                                    data-tab="{{$i}}">
+                                {{or $title (printf "Tab %d" (add $i 1))}}
+                            </button>
+                        {{end}}
+                    </div>
+
+                    <div class="landing-showcase-panels">
+                        {{range $i, $t := $tabs}}
+                            {{$slogan := index $t "slogan"}}
+                            {{$mediaType := index $t "mediaType"}}
+                            {{$mediaURL := index $t "mediaUrl"}}
+                            <div class="landing-showcase-panel{{if eq $i 0}} is-active{{end}}" role="tabpanel" data-panel="{{$i}}">
+                                {{if $slogan}}
+                                    <div class="landing-showcase-slogan">{{$slogan}}</div>
+                                {{end}}
+                                <div class="landing-media landing-media--tab">
+                                    {{if $mediaURL}}
+                                        {{if eq (or $mediaType "image") "video"}}
+                                            <video class="landing-media-inner" controls playsinline preload="metadata">
+                                                <source src="{{$mediaURL}}">
+                                            </video>
+                                        {{else}}
+                                            <img class="landing-media-inner" src="{{$mediaURL}}" alt="preview"/>
+                                        {{end}}
+                                    {{else}}
+                                        <div class="landing-media-placeholder">图片，或者视频 功能展示</div>
+                                    {{end}}
+                                </div>
+                            </div>
+                        {{end}}
+                    </div>
+                </div>
+
+                <script>
+                    (function () {
+                        var root = document.querySelector('[data-landing-tabs]');
+                        if (!root) return;
+                        var tabs = root.querySelectorAll('[data-tab]');
+                        var panels = root.querySelectorAll('[data-panel]');
+                        function activate(idx) {
+                            tabs.forEach(function (t) {
+                                var active = t.getAttribute('data-tab') === String(idx);
+                                t.classList.toggle('is-active', active);
+                                t.setAttribute('aria-selected', active ? 'true' : 'false');
+                            });
+                            panels.forEach(function (p) {
+                                var active = p.getAttribute('data-panel') === String(idx);
+                                p.classList.toggle('is-active', active);
+                            });
+                        }
+                        tabs.forEach(function (t) {
+                            t.addEventListener('click', function () { activate(t.getAttribute('data-tab')); });
+                        });
+                    })();
+                </script>
+            {{end}}
+        </div>
+    </div>
+    </body>
+    </html>
+{{end}}

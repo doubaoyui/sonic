@@ -84,11 +84,22 @@ See: https://hub.docker.com/r/gosonic/sonic
 
 ### Run with docker-compose
 ```bash
-docker compose up --build
+docker compose up -d
 ```
 Then open http://localhost:8080/admin#install
 
 Data (conf/db/uploads/theme) will be persisted in `./data`.
+
+### Build locally (optional)
+```bash
+docker compose -f docker-compose.local.yml up -d --build
+```
+
+### Enterprise site quick start (this repo)
+- On a fresh volume (empty `./data`), finish the install wizard at `http://localhost:8080/admin/#install`.
+- The install process will auto-seed enterprise pages + menu:
+  - Pages: `/download` `/pricing` `/docs` `/faq` `/contact` `/about`
+  - Menu: `Home / Download / Pricing / Docs / FAQ / Contact / About`
 
 ## Theme ecology
 

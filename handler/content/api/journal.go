@@ -79,6 +79,10 @@ func (j *JournalHandler) GetJournal(ctx *gin.Context) (interface{}, error) {
 }
 
 func (j *JournalHandler) ListTopComment(ctx *gin.Context) (interface{}, error) {
+	enabled, _ := j.OptionService.GetOrByDefault(ctx, property.CommentAPIEnabled).(bool)
+	if !enabled {
+		return nil, xerr.WithStatus(xerr.NoType.New("comment api disabled"), xerr.StatusNotFound).WithMsg("Not Found")
+	}
 	journalID, err := util.ParamInt32(ctx, "journalID")
 	if err != nil {
 		return nil, err
@@ -114,6 +118,10 @@ func (j *JournalHandler) ListTopComment(ctx *gin.Context) (interface{}, error) {
 }
 
 func (j *JournalHandler) ListChildren(ctx *gin.Context) (interface{}, error) {
+	enabled, _ := j.OptionService.GetOrByDefault(ctx, property.CommentAPIEnabled).(bool)
+	if !enabled {
+		return nil, xerr.WithStatus(xerr.NoType.New("comment api disabled"), xerr.StatusNotFound).WithMsg("Not Found")
+	}
 	journalID, err := util.ParamInt32(ctx, "journalID")
 	if err != nil {
 		return nil, err
@@ -131,6 +139,10 @@ func (j *JournalHandler) ListChildren(ctx *gin.Context) (interface{}, error) {
 }
 
 func (j *JournalHandler) ListCommentTree(ctx *gin.Context) (interface{}, error) {
+	enabled, _ := j.OptionService.GetOrByDefault(ctx, property.CommentAPIEnabled).(bool)
+	if !enabled {
+		return nil, xerr.WithStatus(xerr.NoType.New("comment api disabled"), xerr.StatusNotFound).WithMsg("Not Found")
+	}
 	journalID, err := util.ParamInt32(ctx, "journalID")
 	if err != nil {
 		return nil, err
@@ -166,6 +178,10 @@ func (j *JournalHandler) ListCommentTree(ctx *gin.Context) (interface{}, error) 
 }
 
 func (j *JournalHandler) ListComment(ctx *gin.Context) (interface{}, error) {
+	enabled, _ := j.OptionService.GetOrByDefault(ctx, property.CommentAPIEnabled).(bool)
+	if !enabled {
+		return nil, xerr.WithStatus(xerr.NoType.New("comment api disabled"), xerr.StatusNotFound).WithMsg("Not Found")
+	}
 	journalID, err := util.ParamInt32(ctx, "journalID")
 	if err != nil {
 		return nil, err
@@ -201,6 +217,10 @@ func (j *JournalHandler) ListComment(ctx *gin.Context) (interface{}, error) {
 }
 
 func (j *JournalHandler) CreateComment(ctx *gin.Context) (interface{}, error) {
+	enabled, _ := j.OptionService.GetOrByDefault(ctx, property.CommentAPIEnabled).(bool)
+	if !enabled {
+		return nil, xerr.WithStatus(xerr.NoType.New("comment api disabled"), xerr.StatusNotFound).WithMsg("Not Found")
+	}
 	p := param.Comment{}
 	err := ctx.ShouldBindJSON(&p)
 	if err != nil {

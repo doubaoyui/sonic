@@ -1,0 +1,34 @@
+{{- define "caicai_anatole/module/page-top" -}}
+    <div class="page-top landing-page-top">
+        <div class="landing-top-inner">
+            <div class="landing-top-left">
+                <a class="landing-logo" href="{{.blog_url}}">
+                    {{- $logo := or .settings.landing_brand_logo .blog_logo -}}
+                    {{- if $logo -}}
+                        <img src="{{$logo}}" alt="logo"/>
+                    {{- end -}}
+                    <span class="landing-site-title">{{or .settings.landing_brand_name .blog_title}}</span>
+                </a>
+            </div>
+
+            <div class="landing-top-center">
+                <div class="landing-nav">
+                    {{ $menus:=(listMenu)}}
+                    {{range $menu:=$menus}}
+                        <a class="landing-nav-item" href="{{$menu.URL}}" target="{{$menu.Target}}">{{$menu.Name}}</a>
+                    {{end}}
+                </div>
+            </div>
+
+            <div class="landing-top-right">
+                <div class="landing-top-actions">
+                    {{if .settings.landing_top_button_url}}
+                        <a class="landing-top-button" href="{{.settings.landing_top_button_url}}" target="_blank" rel="noopener">
+                            {{or .settings.landing_top_button_text "Download"}}
+                        </a>
+                    {{end}}
+                </div>
+            </div>
+        </div>
+    </div>
+{{- end -}}

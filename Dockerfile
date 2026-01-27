@@ -26,7 +26,7 @@ ARG SONIC_VERSION=dev
 
 RUN --mount=type=cache,target=/go/pkg/mod \
   --mount=type=cache,target=/root/.cache/go-build \
-  CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+  CGO_ENABLED=0 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH:-amd64} \
   go build -o /out/sonic \
   -ldflags="-s -w -X github.com/go-sonic/sonic/consts.SonicVersion=${SONIC_VERSION} -X github.com/go-sonic/sonic/consts.BuildCommit=${BUILD_COMMIT} -X github.com/go-sonic/sonic/consts.BuildTime=${BUILD_TIME}" \
   -trimpath .

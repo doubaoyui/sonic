@@ -219,20 +219,65 @@ func (s *propertyScannerImpl) ReadThemeConfig(ctx context.Context, themePath str
 }
 
 func (s *propertyScannerImpl) UnmarshalConfig(ctx context.Context, themeSettingContent []byte) ([]*dto.ThemeConfigGroup, error) {
-	settingMap := make(map[string]*dto.ThemeConfigGroup, 0)
-	err := yaml.Unmarshal(themeSettingContent, &settingMap)
-	if err != nil {
+	// NOTE: YAML maps are unordered in Go (map iteration is randomized).
+	// Use yaml.MapSlice to preserve the order as written in settings.yaml.
+	var root yaml.MapSlice
+	if err := yaml.Unmarshal(themeSettingContent, &root); err != nil {
 		return nil, xerr.WithMsg(err, "unmarshal yaml file err")
 	}
 
-	settings := make([]*dto.ThemeConfigGroup, 0, len(settingMap))
-	for name, setting := range settingMap {
-		setting.Name = name
-		for _, item := range setting.ItemMap {
-			setting.Items = append(setting.Items, item)
+	type rawGroup struct {
+		Label string       `yaml:"label"`
+		Items yaml.MapSlice `yaml:"items"`
+	}
+
+	settings := make([]*dto.ThemeConfigGroup, 0, len(root))
+	for _, groupKV := range root {
+		groupName, ok := groupKV.Key.(string)
+		if !ok || groupName == "" {
+			continue
 		}
 
-		settings = append(settings, setting)
+		// Parse group while preserving item order.
+		groupBytes, err := yaml.Marshal(groupKV.Value)
+		if err != nil {
+			return nil, xerr.WithMsg(err, "marshal theme setting group err")
+		}
+		rg := rawGroup{}
+		if err := yaml.Unmarshal(groupBytes, &rg); err != nil {
+			return nil, xerr.WithMsg(err, "unmarshal theme setting group err")
+		}
+
+		group := &dto.ThemeConfigGroup{
+			Name:    groupName,
+			Label:   rg.Label,
+			Items:   make([]*dto.ThemeConfigItem, 0, len(rg.Items)),
+			ItemMap: make(map[string]*dto.ThemeConfigItem, len(rg.Items)),
+		}
+
+		for _, itemKV := range rg.Items {
+			itemName, ok := itemKV.Key.(string)
+			if !ok || itemName == "" {
+				continue
+			}
+			itemBytes, err := yaml.Marshal(itemKV.Value)
+			if err != nil {
+				return nil, xerr.WithMsg(err, "marshal theme setting item err")
+			}
+			item := &dto.ThemeConfigItem{}
+			if err := yaml.Unmarshal(itemBytes, item); err != nil {
+				return nil, xerr.WithMsg(err, "unmarshal theme setting item err")
+			}
+			// If the item doesn't specify a name, use the YAML key.
+			if item.Name == "" {
+				item.Name = itemName
+			}
+			group.Items = append(group.Items, item)
+			group.ItemMap[itemName] = item
+		}
+
+		settings = append(settings, group)
 	}
+
 	return settings, nil
 }

@@ -38,6 +38,10 @@ func NewSheetHandler(
 }
 
 func (s *SheetHandler) ListTopComment(ctx *gin.Context) (interface{}, error) {
+	enabled, _ := s.OptionService.GetOrByDefault(ctx, property.CommentAPIEnabled).(bool)
+	if !enabled {
+		return nil, xerr.WithStatus(xerr.NoType.New("comment api disabled"), xerr.StatusNotFound).WithMsg("Not Found")
+	}
 	sheetID, err := util.ParamInt32(ctx, "sheetID")
 	if err != nil {
 		return nil, err
@@ -73,6 +77,10 @@ func (s *SheetHandler) ListTopComment(ctx *gin.Context) (interface{}, error) {
 }
 
 func (s *SheetHandler) ListChildren(ctx *gin.Context) (interface{}, error) {
+	enabled, _ := s.OptionService.GetOrByDefault(ctx, property.CommentAPIEnabled).(bool)
+	if !enabled {
+		return nil, xerr.WithStatus(xerr.NoType.New("comment api disabled"), xerr.StatusNotFound).WithMsg("Not Found")
+	}
 	sheetID, err := util.ParamInt32(ctx, "sheetID")
 	if err != nil {
 		return nil, err
@@ -90,6 +98,10 @@ func (s *SheetHandler) ListChildren(ctx *gin.Context) (interface{}, error) {
 }
 
 func (s *SheetHandler) ListCommentTree(ctx *gin.Context) (interface{}, error) {
+	enabled, _ := s.OptionService.GetOrByDefault(ctx, property.CommentAPIEnabled).(bool)
+	if !enabled {
+		return nil, xerr.WithStatus(xerr.NoType.New("comment api disabled"), xerr.StatusNotFound).WithMsg("Not Found")
+	}
 	sheetID, err := util.ParamInt32(ctx, "sheetID")
 	if err != nil {
 		return nil, err
@@ -125,6 +137,10 @@ func (s *SheetHandler) ListCommentTree(ctx *gin.Context) (interface{}, error) {
 }
 
 func (s *SheetHandler) ListComment(ctx *gin.Context) (interface{}, error) {
+	enabled, _ := s.OptionService.GetOrByDefault(ctx, property.CommentAPIEnabled).(bool)
+	if !enabled {
+		return nil, xerr.WithStatus(xerr.NoType.New("comment api disabled"), xerr.StatusNotFound).WithMsg("Not Found")
+	}
 	sheetID, err := util.ParamInt32(ctx, "sheetID")
 	if err != nil {
 		return nil, err
@@ -160,6 +176,10 @@ func (s *SheetHandler) ListComment(ctx *gin.Context) (interface{}, error) {
 }
 
 func (s *SheetHandler) CreateComment(ctx *gin.Context) (interface{}, error) {
+	enabled, _ := s.OptionService.GetOrByDefault(ctx, property.CommentAPIEnabled).(bool)
+	if !enabled {
+		return nil, xerr.WithStatus(xerr.NoType.New("comment api disabled"), xerr.StatusNotFound).WithMsg("Not Found")
+	}
 	comment := param.Comment{}
 	err := ctx.ShouldBindJSON(&comment)
 	if err != nil {

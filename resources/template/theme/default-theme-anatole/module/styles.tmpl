@@ -1,0 +1,39 @@
+{{define "caicai_anatole/module/styles"}}
+    <style>
+    /* New layout: no sidebar, top menu always visible */
+    .sidebar {
+        display: none !important;
+        width: 0 !important;
+    }
+
+    .page-top {
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+    }
+
+    .content {
+        float: none !important;
+        width: 100% !important;
+        max-width: 1180px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0 24px 56px;
+    }
+
+    .content {
+        margin-top: 0 !important;
+    }
+
+    @media screen and (max-width: 960px) {
+        .content {
+            margin-top: 0 !important;
+            position: relative !important;
+        }
+    }
+
+    </style>
+<link href="{{ .theme_base}}/dist/style.css?version={{ .theme.Version}}&t={{.now.UnixNano}}" rel="stylesheet">
+<link href="{{ .theme_base}}/assets/css/landing.css?version={{ .theme.Version}}&t={{.now.UnixNano}}" rel="stylesheet">
+<script type="text/javascript" src="{{ .theme_base}}/dist/main.iife.js?version={{ .theme.Version}}&t={{.now.UnixNano}}" defer></script>
+{{end}}

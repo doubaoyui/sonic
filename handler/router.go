@@ -19,6 +19,9 @@ import (
 
 func (s *Server) RegisterRouters() {
 	router := s.Router
+	if s.I18nMiddleware != nil {
+		router.Use(s.I18nMiddleware.Handler())
+	}
 	if config.IsDev() {
 		router.Use(cors.New(cors.Config{
 			AllowAllOrigins:  true,
@@ -412,7 +415,7 @@ func (s *Server) registerDynamicRouters(contentRouter *gin.RouterGroup) error {
 	contentRouter.GET(journalPath+"/page/:page", s.wrapHTMLHandler(s.ContentJournalHandler.JournalsPage))
 	contentRouter.GET("admin_preview/"+archivePath+"/:slug", s.wrapHTMLHandler(s.ArchiveHandler.AdminArchivesBySlug))
 	if sheetPermaLinkType == consts.SheetPermaLinkTypeRoot {
-		contentRouter.GET("/:slug")
+		contentRouter.GET("/:slug", s.wrapHTMLHandler(s.ContentSheetHandler.SheetBySlug))
 	} else {
 		contentRouter.GET(sheetPath+"/:slug", s.wrapHTMLHandler(s.ContentSheetHandler.SheetBySlug))
 	}

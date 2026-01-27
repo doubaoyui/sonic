@@ -1,9 +1,12 @@
 services:
   sonic:
-    image: ghcr.io/doubaoyui/sonic:latest
+    image: ${SONIC_IMAGE:-ghcr.io/doubaoyui/sonic}:${SONIC_TAG:-latest}
     pull_policy: always
     ports:
-      - "8080:8080"
+      # Security: when you have a public nginx/caddy in front, bind to localhost to avoid exposing Sonic directly.
+      - "${SONIC_BIND_IP:-127.0.0.1}:${SONIC_PORT:-8080}:8080"
     volumes:
       - ./data:/sonic
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
     restart: unless-stopped

@@ -1,0 +1,53 @@
+{{- define "caicai_anatole/sheet" -}}
+    <!DOCTYPE html>
+    <html lang="{{or .lang .blog_locale}}">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>{{.sheet.Title}} - {{.blog_title}}</title>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+        <meta name="format-detection" content="telephone=no"/>
+        <meta name="renderer" content="webkit"/>
+        <meta name="author" content="{{ .user.Nickname}}"/>
+        <meta name="keywords" content="{{ .meta_keywords}}"/>
+        <meta name="description" content="{{ .meta_description}}"/>
+        <link rel="alternate" type="application/rss+xml" title="atom 1.0" href="{{ .atom_url}}"/>
+        {{template "global.head" .}}
+        {{template "caicai_anatole/module/styles" .}}
+        
+        {{template "caicai_anatole/module/highlightjs/libs-import" .}}
+        {{template "caicai_anatole/module/lightgallery/libs-import" .}}
+        <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    </head>
+    <body x-data="{ postSearchVisible: false }">
+    <div class="main">
+        {{template "caicai_anatole/module/page-top" .}}
+        <div class="content">
+            {{if eq .sheet.Slug "download"}}
+                <div class="post-page">
+                    <div class="post animated fadeInDown">
+                        <div class="landing-hero-text" style="padding: 26px 0 6px;">
+                            {{template "caicai_anatole/module/download-buttons" .}}
+                            {{if .settings.landing_note}}
+                                <div class="landing-note">{{.settings.landing_note}}</div>
+                            {{end}}
+                        </div>
+                    </div>
+                </div>
+            {{end}}
+            <div class="post-page">
+                <div class="post animated fadeInDown">
+                        <div id="post-content" class="post-content markdown-body">
+                            {{noescape .sheet.Content}}
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    {{template "caicai_anatole/module/highlightjs/scripts" .}}
+    {{template "caicai_anatole/module/lightgallery/scripts" .}}
+    {{template "caicai_anatole/module/post-search-modal" .}}
+    </body>
+    </html>
+{{end}}

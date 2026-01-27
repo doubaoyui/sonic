@@ -1,0 +1,30 @@
+{{- define "caicai_anatole/module/layout" -}}
+    <!DOCTYPE html>
+    <html lang="zh">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title><@layout.block name="title"></@layout.block></title>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+        <meta name="format-detection" content="telephone=no"/>
+        <meta name="renderer" content="webkit"/>
+        <meta name="author" content="{{ .user.Nickname}}"/>
+        <meta name="keywords" content="{{ .meta_keywords}}"/>
+        <meta name="description" content="{{ .meta_description}}"/>
+        <link rel="alternate" type="application/rss+xml" title="atom 1.0" href="{{ .atom_url}}"/>
+        {{template "global.head" .}}
+        {{template "caicai_anatole/module/styles" .}}
+        
+    </head>
+    <body x-data="{ postSearchVisible: false }">
+    <div class="main">
+        {{template "caicai_anatole/module/page-top" .}}
+        <div class="content">
+        </div>
+    </div>
+
+    {{template "caicai_anatole/module/post-search-modal" .}}
+    </body>
+    </html>
+{{end}}

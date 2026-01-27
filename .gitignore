@@ -9,4 +9,5 @@ sonic
 __debug_bin
 /data
 /resources/template/theme/
-!/resources/template/theme/default-theme-anatole
+!/resources/template/theme/default-theme-anatole/
+!/resources/template/theme/default-theme-anatole/**

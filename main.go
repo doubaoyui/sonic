@@ -47,6 +47,7 @@ func InitApp() *fx.App {
 			middleware.NewGinLoggerMiddleware,
 			middleware.NewRecoveryMiddleware,
 			middleware.NewInstallRedirectMiddleware,
+			middleware.NewI18nMiddleware,
 		),
 		fx.Populate(&dal.DB),
 		fx.Populate(&eventBus),
@@ -66,6 +67,7 @@ func InitApp() *fx.App {
 			extension.RegisterPaginationFunc,
 			extension.RegisterPostFunc,
 			extension.RegisterStatisticFunc,
+			extension.RegisterI18nFunc,
 			func(s *handler.Server) {
 				s.RegisterRouters()
 			},

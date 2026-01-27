@@ -72,23 +72,11 @@ func (i installServiceImpl) InstallBlog(ctx context.Context, installParam param.
 		if err != nil {
 			return err
 		}
-		category, err := i.createDefaultCategory(txCtx)
+		err = i.createEnterpriseSheets(txCtx)
 		if err != nil {
 			return err
 		}
-		post, err := i.createDefaultPost(txCtx, category)
-		if err != nil {
-			return err
-		}
-		_, err = i.createDefaultSheet(txCtx)
-		if err != nil {
-			return err
-		}
-		_, err = i.createDefaultComment(txCtx, post)
-		if err != nil {
-			return err
-		}
-		err = i.createDefaultMenu(txCtx)
+		err = i.createEnterpriseMenu(txCtx)
 		return err
 	})
 	if err != nil {
@@ -98,7 +86,7 @@ func (i installServiceImpl) InstallBlog(ctx context.Context, installParam param.
 		i.Event.Publish(ctx, &event.LogEvent{
 			LogKey:  strconv.Itoa(int(user.ID)),
 			LogType: consts.LogTypeBlogInitialized,
-			Content: "博客已成功初始化",
+			Content: "站点已成功初始化",
 		})
 	}
 
@@ -110,6 +98,14 @@ func (i installServiceImpl) createDefaultSetting(ctx context.Context, installPar
 	optionMap[property.IsInstalled.KeyValue] = "true"
 	optionMap[property.GlobalAbsolutePathEnabled.KeyValue] = "false"
 	optionMap[property.BlogTitle.KeyValue] = installParam.Title
+	// Enterprise defaults:
+	// - Use root-level sheet URLs: /download /pricing ...
+	// - Use a stable menu team for the header.
+	// - Disable comment APIs by default.
+	optionMap[property.SheetPermalinkType.KeyValue] = string(consts.SheetPermaLinkTypeRoot)
+	optionMap[property.PathSuffix.KeyValue] = ""
+	optionMap[property.DefaultMenuTeam.KeyValue] = "main"
+	optionMap[property.CommentAPIEnabled.KeyValue] = "false"
 	if installParam.URL == "" {
 		blogURL, err := i.OptionService.GetBlogBaseURL(ctx)
 		if err != nil {
@@ -297,6 +293,81 @@ func (i installServiceImpl) createDefaultMenu(ctx context.Context) error {
 	err = createMenu(menuCategory, err)
 	err = createMenu(menuSheet, err)
 	return err
+}
+
+func (i installServiceImpl) createEnterpriseSheets(ctx context.Context) error {
+	// Only seed when there are no published sheets.
+	postDAL := dal.GetQueryByCtx(ctx).Post
+	count, err := postDAL.WithContext(ctx).
+		Where(postDAL.Status.Eq(consts.PostStatusPublished), postDAL.Type.Eq(consts.PostTypeSheet)).
+		Count()
+	if err != nil {
+		return err
+	}
+	if count > 0 {
+		return nil
+	}
+
+	type sheetSeed struct {
+		Slug  string
+		Title string
+	}
+	seeds := []sheetSeed{
+		{Slug: "download", Title: "Download"},
+		{Slug: "pricing", Title: "Pricing"},
+		{Slug: "docs", Title: "Docs"},
+		{Slug: "faq", Title: "FAQ"},
+		{Slug: "contact", Title: "Contact"},
+		{Slug: "about", Title: "About"},
+	}
+	for _, s := range seeds {
+		originalContent := "## " + s.Title + "\n\n" +
+			"这是一个企业官网页面（初始化生成）。\n\n" +
+			"你可以在后台编辑此页面内容。"
+		formatContent := "<h2>" + s.Title + "</h2>" +
+			"<p>这是一个企业官网页面（初始化生成）。你可以在后台编辑此页面内容。</p>"
+		sheetParam := param.Sheet{
+			Title:           s.Title,
+			Status:          consts.PostStatusPublished,
+			Slug:            s.Slug,
+			OriginalContent: originalContent,
+			Content:         formatContent,
+			DisallowComment: true,
+		}
+		if _, err := i.SheetService.Create(ctx, &sheetParam); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (i installServiceImpl) createEnterpriseMenu(ctx context.Context) error {
+	// Only seed when menu table is empty.
+	menuDAL := dal.GetQueryByCtx(ctx).Menu
+	count, err := menuDAL.WithContext(ctx).Count()
+	if err != nil {
+		return WrapDBErr(err)
+	}
+	if count > 0 {
+		return nil
+	}
+
+	menus := []*param.Menu{
+		{Name: "Home", URL: "/", Priority: 1, Team: "main", Target: "_self"},
+		{Name: "Download", URL: "/download", Priority: 2, Team: "main", Target: "_self"},
+		{Name: "Pricing", URL: "/pricing", Priority: 3, Team: "main", Target: "_self"},
+		{Name: "Docs", URL: "/docs", Priority: 4, Team: "main", Target: "_self"},
+		{Name: "FAQ", URL: "/faq", Priority: 5, Team: "main", Target: "_self"},
+		{Name: "Contact", URL: "/contact", Priority: 6, Team: "main", Target: "_self"},
+		{Name: "About", URL: "/about", Priority: 7, Team: "main", Target: "_self"},
+	}
+	for _, m := range menus {
+		_, err = i.MenuService.Create(ctx, m)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func (i installServiceImpl) createJWTSecret(ctx context.Context) error {

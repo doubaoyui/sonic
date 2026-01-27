@@ -34,12 +34,37 @@ func RegisterMenuFunc(template *template.Template, menuService service.MenuServi
 func (m *menuExtension) addListMenuFunc() {
 	listMenu := func() ([]*dto.Menu, error) {
 		ctx := context.Background()
-		listTeam := m.OptionService.GetOrByDefault(ctx, property.DefaultMenuTeam)
-		menus, err := m.MenuService.ListByTeam(ctx, listTeam.(string), &param.Sort{
+		listTeam := m.OptionService.GetOrByDefault(ctx, property.DefaultMenuTeam).(string)
+		resolvedTeam := listTeam
+		if resolvedTeam == "" {
+			if teams, err := m.MenuService.ListTeams(ctx); err == nil && len(teams) > 0 {
+				for _, team := range teams {
+					if team != "" {
+						resolvedTeam = team
+						break
+					}
+				}
+			}
+		}
+
+		menus, err := m.MenuService.ListByTeam(ctx, resolvedTeam, &param.Sort{
 			Fields: []string{"priority,asc"},
 		})
 		if err != nil {
 			return nil, err
+		}
+		if len(menus) == 0 && listTeam != "" {
+			if teams, err := m.MenuService.ListTeams(ctx); err == nil && len(teams) > 0 {
+				for _, team := range teams {
+					if team == "" || team == listTeam {
+						continue
+					}
+					if fallbackMenus, err := m.MenuService.ListByTeam(ctx, team, &param.Sort{Fields: []string{"priority,asc"}}); err == nil && len(fallbackMenus) > 0 {
+						menus = fallbackMenus
+						break
+					}
+				}
+			}
 		}
 		menuDTOs := m.MenuService.ConvertToDTOs(ctx, menus)
 		return menuDTOs, nil
@@ -50,9 +75,35 @@ func (m *menuExtension) addListMenuFunc() {
 func (m *menuExtension) addListMenuAsTree() {
 	listMenuAsTree := func() ([]*vo.Menu, error) {
 		ctx := context.Background()
-		listTeam := m.OptionService.GetOrByDefault(ctx, property.DefaultMenuTeam)
-		menus, err := m.MenuService.ListAsTreeByTeam(ctx, listTeam.(string), &param.Sort{Fields: []string{"priority,asc"}})
-		return menus, err
+		listTeam := m.OptionService.GetOrByDefault(ctx, property.DefaultMenuTeam).(string)
+		resolvedTeam := listTeam
+		if resolvedTeam == "" {
+			if teams, err := m.MenuService.ListTeams(ctx); err == nil && len(teams) > 0 {
+				for _, team := range teams {
+					if team != "" {
+						resolvedTeam = team
+						break
+					}
+				}
+			}
+		}
+		menus, err := m.MenuService.ListAsTreeByTeam(ctx, resolvedTeam, &param.Sort{Fields: []string{"priority,asc"}})
+		if err != nil {
+			return nil, err
+		}
+		if len(menus) == 0 && listTeam != "" {
+			if teams, err := m.MenuService.ListTeams(ctx); err == nil && len(teams) > 0 {
+				for _, team := range teams {
+					if team == "" || team == listTeam {
+						continue
+					}
+					if fallback, err := m.MenuService.ListAsTreeByTeam(ctx, team, &param.Sort{Fields: []string{"priority,asc"}}); err == nil && len(fallback) > 0 {
+						return fallback, nil
+					}
+				}
+			}
+		}
+		return menus, nil
 	}
 	m.Template.AddFunc("listMenuAsTree", listMenuAsTree)
 }

@@ -34,6 +34,7 @@ type Server struct {
 	LogMiddleware             *middleware.GinLoggerMiddleware
 	RecoveryMiddleware        *middleware.RecoveryMiddleware
 	InstallRedirectMiddleware *middleware.InstallRedirectMiddleware
+	I18nMiddleware            *middleware.I18nMiddleware
 	OptionService             service.OptionService
 	ThemeService              service.ThemeService
 	SheetService              service.SheetService
@@ -90,6 +91,7 @@ type ServerParams struct {
 	LogMiddleware             *middleware.GinLoggerMiddleware
 	RecoveryMiddleware        *middleware.RecoveryMiddleware
 	InstallRedirectMiddleware *middleware.InstallRedirectMiddleware
+	I18nMiddleware            *middleware.I18nMiddleware
 	OptionService             service.OptionService
 	ThemeService              service.ThemeService
 	SheetService              service.SheetService
@@ -156,6 +158,7 @@ func NewServer(param ServerParams, lifecycle fx.Lifecycle) *Server {
 		LogMiddleware:             param.LogMiddleware,
 		RecoveryMiddleware:        param.RecoveryMiddleware,
 		InstallRedirectMiddleware: param.InstallRedirectMiddleware,
+		I18nMiddleware:            param.I18nMiddleware,
 		AdminHandler:              param.AdminHandler,
 		AttachmentHandler:         param.AttachmentHandler,
 		BackupHandler:             param.BackupHandler,
@@ -261,6 +264,12 @@ func (s *Server) wrapHTMLHandler(handler wrapperHTMLHandler) gin.HandlerFunc {
 		if templateName == "" {
 			return
 		}
+		// Expose negotiated language to templates.
+		if _, ok := model["lang"]; !ok {
+			if lang := ctx.GetString("lang"); lang != "" {
+				model["lang"] = lang
+			}
+		}
 		header := ctx.Writer.Header()
 		if val := header["Content-Type"]; len(val) == 0 {
 			header["Content-Type"] = htmlContentType
@@ -279,6 +288,11 @@ func (s *Server) wrapTextHandler(handler wrapperHTMLHandler) gin.HandlerFunc {
 		if err != nil {
 			s.handleError(ctx, err)
 			return
+		}
+		if _, ok := model["lang"]; !ok {
+			if lang := ctx.GetString("lang"); lang != "" {
+				model["lang"] = lang
+			}
 		}
 		header := ctx.Writer.Header()
 		if val := header["Content-Type"]; len(val) == 0 {
