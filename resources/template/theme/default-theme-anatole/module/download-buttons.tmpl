@@ -1,8 +1,9 @@
 {{- define "caicai_anatole/module/download-buttons" -}}
-    {{$winURL := .settings.landing_download_windows_url}}
-    {{$macURL := .settings.landing_download_macos_url}}
-    {{$macArmURL := .settings.landing_download_macos_arm_url}}
-    {{$macIntelURL := .settings.landing_download_macos_intel_url}}
+    {{/* Allow both direct URL and attachment selection; attachment takes precedence. */}}
+    {{$winURL := or .settings.landing_download_windows_attachment .settings.landing_download_windows_url}}
+    {{$macURL := or .settings.landing_download_macos_attachment .settings.landing_download_macos_url}}
+    {{$macArmURL := or .settings.landing_download_macos_arm_attachment .settings.landing_download_macos_arm_url}}
+    {{$macIntelURL := or .settings.landing_download_macos_intel_attachment .settings.landing_download_macos_intel_url}}
 
     <div class="landing-actions">
         <a class="landing-btn landing-btn-primary{{if not $winURL}} landing-btn-disabled{{end}}"

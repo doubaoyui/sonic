@@ -311,6 +311,12 @@ landing:
       type: text
       data-type: string
       description: "建议直链（.exe/.msi）或你的下载页 URL。"
+    landing_download_windows_attachment:
+      name: landing_download_windows_attachment
+      label: 【下载按钮】Windows 下载附件（可选）
+      type: attachment
+      data-type: string
+      description: "选择已上传的 Windows 安装包附件（优先级高于 Windows 下载链接）。"
     landing_download_windows_text:
       name: landing_download_windows_text
       label: 【下载按钮】Windows 按钮文案（可选）
@@ -323,6 +329,12 @@ landing:
       type: text
       data-type: string
       description: "兼容旧配置：如果你配置了 macOS ARM / Intel，则这里会被忽略。"
+    landing_download_macos_attachment:
+      name: landing_download_macos_attachment
+      label: 【下载按钮】macOS 下载附件（兼容旧版，可选）
+      type: attachment
+      data-type: string
+      description: "选择已上传的 macOS 安装包附件（优先级高于 macOS 下载链接）。如果你配置了 macOS ARM / Intel，则这里会被忽略。"
     landing_download_macos_text:
       name: landing_download_macos_text
       label: 【下载按钮】macOS 按钮文案（旧版，可选）
@@ -336,6 +348,12 @@ landing:
       type: text
       data-type: string
       description: "建议直链（.dmg/.pkg）或你的下载页 URL。"
+    landing_download_macos_arm_attachment:
+      name: landing_download_macos_arm_attachment
+      label: 【下载按钮】macOS (Apple Silicon / M 系列) 下载附件（可选）
+      type: attachment
+      data-type: string
+      description: "选择已上传的 macOS (M 系列) 安装包附件（优先级高于 macOS (M) 下载链接）。"
     landing_download_macos_arm_text:
       name: landing_download_macos_arm_text
       label: 【下载按钮】macOS (M 系列) 按钮文案（可选）
@@ -349,6 +367,12 @@ landing:
       type: text
       data-type: string
       description: "建议直链（.dmg/.pkg）或你的下载页 URL。"
+    landing_download_macos_intel_attachment:
+      name: landing_download_macos_intel_attachment
+      label: 【下载按钮】macOS (Intel) 下载附件（可选）
+      type: attachment
+      data-type: string
+      description: "选择已上传的 macOS (Intel) 安装包附件（优先级高于 macOS (Intel) 下载链接）。"
     landing_download_macos_intel_text:
       name: landing_download_macos_intel_text
       label: 【下载按钮】macOS (Intel) 按钮文案（可选）
