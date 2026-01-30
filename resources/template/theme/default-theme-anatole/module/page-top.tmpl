@@ -22,6 +22,11 @@
 
             <div class="landing-top-right">
                 <div class="landing-top-actions">
+                    <div class="lang-switch" aria-label="Language switch">
+                        <a class="lang-item" data-lang="zh" href="{{.blog_url}}?lang=zh">中文</a>
+                        <span class="lang-sep">/</span>
+                        <a class="lang-item" data-lang="en" href="{{.blog_url}}?lang=en">EN</a>
+                    </div>
                     {{if .settings.landing_top_button_url}}
                         <a class="landing-top-button" href="{{.settings.landing_top_button_url}}" target="_blank" rel="noopener">
                             {{or .settings.landing_top_button_text "Download"}}
@@ -31,4 +36,20 @@
             </div>
         </div>
     </div>
+    <script>
+      (function () {
+        var links = document.querySelectorAll('.lang-switch .lang-item');
+        if (!links.length) return;
+        var lang = '{{or .lang .blog_locale}}';
+        for (var i = 0; i < links.length; i++) {
+          var el = links[i];
+          if (el.getAttribute('data-lang') === lang) el.classList.add('is-active');
+          try {
+            var url = new URL(window.location.href);
+            url.searchParams.set('lang', el.getAttribute('data-lang'));
+            el.setAttribute('href', url.toString());
+          } catch (e) {}
+        }
+      })();
+    </script>
 {{- end -}}
