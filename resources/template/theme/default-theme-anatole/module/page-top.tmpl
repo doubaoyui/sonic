@@ -30,19 +30,23 @@
             <div class="landing-top-right">
                 <div class="landing-top-actions">
                     <div class="lang-switch" aria-label="Language switch">
-                        <span class="lang-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="m5 8 6 6"></path>
-                                <path d="m4 14 6-6 2-2"></path>
-                                <path d="M2 5h12"></path>
-                                <path d="M7 2h1"></path>
-                                <path d="m22 22-5-10-5 10"></path>
-                                <path d="M14 18h6"></path>
-                            </svg>
-                        </span>
-                        <a class="lang-item" data-lang="zh" href="{{.blog_url}}?lang=zh">中文</a>
-                        <span class="lang-sep">/</span>
-                        <a class="lang-item" data-lang="en" href="{{.blog_url}}?lang=en">EN</a>
+                        <button class="lang-toggle" type="button" aria-haspopup="listbox" aria-expanded="false">
+                            <span class="lang-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m5 8 6 6"></path>
+                                    <path d="m4 14 6-6 2-2"></path>
+                                    <path d="M2 5h12"></path>
+                                    <path d="M7 2h1"></path>
+                                    <path d="m22 22-5-10-5 10"></path>
+                                    <path d="M14 18h6"></path>
+                                </svg>
+                            </span>
+                            <span class="lang-current" data-lang-current>中文</span>
+                        </button>
+                        <div class="lang-menu" role="listbox">
+                            <a class="lang-item" data-lang="en" role="option" href="{{.blog_url}}?lang=en">English</a>
+                            <a class="lang-item" data-lang="zh" role="option" href="{{.blog_url}}?lang=zh">中文</a>
+                        </div>
                     </div>
                     {{if .settings.landing_top_button_url}}
                         {{$topBtnText := .settings.landing_top_button_text}}
@@ -61,9 +65,15 @@
     </div>
     <script>
       (function () {
-        var links = document.querySelectorAll('.lang-switch .lang-item');
+        var switcher = document.querySelector('.lang-switch');
+        if (!switcher) return;
+        var links = switcher.querySelectorAll('.lang-item');
         if (!links.length) return;
+        var current = switcher.querySelector('[data-lang-current]');
+        var toggle = switcher.querySelector('.lang-toggle');
         var lang = '{{or .lang .blog_locale}}';
+        var labelMap = { zh: '中文', en: 'English' };
+        if (current && labelMap[lang]) current.textContent = labelMap[lang];
         for (var i = 0; i < links.length; i++) {
           var el = links[i];
           if (el.getAttribute('data-lang') === lang) el.classList.add('is-active');
@@ -73,6 +83,19 @@
             el.setAttribute('href', url.toString());
           } catch (e) {}
         }
+
+        if (!toggle) return;
+        toggle.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var open = switcher.classList.toggle('is-open');
+          toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        document.addEventListener('click', function () {
+          if (switcher.classList.contains('is-open')) {
+            switcher.classList.remove('is-open');
+            toggle.setAttribute('aria-expanded', 'false');
+          }
+        });
       })();
     </script>
 {{- end -}}

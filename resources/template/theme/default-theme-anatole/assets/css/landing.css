@@ -179,6 +179,23 @@ body::before {
   gap: 6px;
   font-size: 12px;
   color: #6b6b6b;
+  position: relative;
+}
+
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.7);
+  color: #4b4b4b;
+  cursor: pointer;
+}
+
+.lang-toggle:hover {
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .lang-icon {
@@ -187,11 +204,35 @@ body::before {
   color: #8b8b8b;
 }
 
+.lang-current {
+  font-weight: 600;
+  letter-spacing: 0.1px;
+}
+
+.lang-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  min-width: 140px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+  padding: 6px;
+  display: none;
+  z-index: 5;
+}
+
+.lang-switch.is-open .lang-menu {
+  display: block;
+}
+
 .lang-item {
   color: #6b6b6b;
   text-decoration: none;
   padding: 4px 6px;
   border-radius: 6px;
+  display: block;
 }
 
 .lang-item:hover {
@@ -220,6 +261,23 @@ body::before {
     background: rgba(0, 0, 0, 0.02);
     padding: 4px 8px;
     border-radius: 10px;
+  }
+}
+
+@media (max-width: 960px) {
+  .landing-top-inner {
+    grid-template-columns: 1fr auto;
+    justify-items: stretch;
+    row-gap: 10px;
+  }
+
+  .landing-top-center {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  .landing-top-right {
+    justify-self: end;
   }
 }
 
