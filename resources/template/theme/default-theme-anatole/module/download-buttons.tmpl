@@ -1,5 +1,6 @@
 {{- define "caicai_anatole/module/download-buttons" -}}
     {{/* Allow both direct URL and attachment selection; attachment takes precedence. */}}
+    {{$lang := or .lang .blog_locale}}
     {{$winURL := or .settings.landing_download_windows_attachment .settings.landing_download_windows_url}}
     {{$macURL := or .settings.landing_download_macos_attachment .settings.landing_download_macos_url}}
     {{$macArmURL := or .settings.landing_download_macos_arm_attachment .settings.landing_download_macos_arm_url}}
@@ -9,7 +10,13 @@
         <a class="landing-btn landing-btn-primary{{if not $winURL}} landing-btn-disabled{{end}}"
            href="{{or $winURL "#"}}"
            {{if $winURL}}target="_blank" rel="noopener"{{else}}aria-disabled="true" tabindex="-1"{{end}}>
-            {{or .settings.landing_download_windows_text (t (or .lang .blog_locale) "landing.download_windows" "下载 Windows")}}
+            {{$winText := .settings.landing_download_windows_text}}
+            {{if eq $lang "en"}}
+                {{if .settings.landing_download_windows_text_en}}{{$winText = .settings.landing_download_windows_text_en}}{{end}}
+            {{else}}
+                {{if .settings.landing_download_windows_text_zh}}{{$winText = .settings.landing_download_windows_text_zh}}{{end}}
+            {{end}}
+            {{or $winText (t $lang "landing.download_windows" "下载 Windows")}}
         </a>
 
         {{/* Prefer new macOS split links when provided; fallback to legacy macOS single link. */}}
@@ -17,18 +24,36 @@
             <a class="landing-btn landing-btn-secondary{{if not $macArmURL}} landing-btn-disabled{{end}}"
                href="{{or $macArmURL "#"}}"
                {{if $macArmURL}}target="_blank" rel="noopener"{{else}}aria-disabled="true" tabindex="-1"{{end}}>
-                {{or .settings.landing_download_macos_arm_text (t (or .lang .blog_locale) "landing.download_macos_arm" "下载 macOS (Apple Silicon)")}}
+                {{$macArmText := .settings.landing_download_macos_arm_text}}
+                {{if eq $lang "en"}}
+                    {{if .settings.landing_download_macos_arm_text_en}}{{$macArmText = .settings.landing_download_macos_arm_text_en}}{{end}}
+                {{else}}
+                    {{if .settings.landing_download_macos_arm_text_zh}}{{$macArmText = .settings.landing_download_macos_arm_text_zh}}{{end}}
+                {{end}}
+                {{or $macArmText (t $lang "landing.download_macos_arm" "下载 macOS (Apple Silicon)")}}
             </a>
             <a class="landing-btn landing-btn-secondary{{if not $macIntelURL}} landing-btn-disabled{{end}}"
                href="{{or $macIntelURL "#"}}"
                {{if $macIntelURL}}target="_blank" rel="noopener"{{else}}aria-disabled="true" tabindex="-1"{{end}}>
-                {{or .settings.landing_download_macos_intel_text (t (or .lang .blog_locale) "landing.download_macos_intel" "下载 macOS (Intel)")}}
+                {{$macIntelText := .settings.landing_download_macos_intel_text}}
+                {{if eq $lang "en"}}
+                    {{if .settings.landing_download_macos_intel_text_en}}{{$macIntelText = .settings.landing_download_macos_intel_text_en}}{{end}}
+                {{else}}
+                    {{if .settings.landing_download_macos_intel_text_zh}}{{$macIntelText = .settings.landing_download_macos_intel_text_zh}}{{end}}
+                {{end}}
+                {{or $macIntelText (t $lang "landing.download_macos_intel" "下载 macOS (Intel)")}}
             </a>
         {{else}}
             <a class="landing-btn landing-btn-secondary{{if not $macURL}} landing-btn-disabled{{end}}"
                href="{{or $macURL "#"}}"
                {{if $macURL}}target="_blank" rel="noopener"{{else}}aria-disabled="true" tabindex="-1"{{end}}>
-                {{or .settings.landing_download_macos_text (t (or .lang .blog_locale) "landing.download_macos" "下载 macOS")}}
+                {{$macText := .settings.landing_download_macos_text}}
+                {{if eq $lang "en"}}
+                    {{if .settings.landing_download_macos_text_en}}{{$macText = .settings.landing_download_macos_text_en}}{{end}}
+                {{else}}
+                    {{if .settings.landing_download_macos_text_zh}}{{$macText = .settings.landing_download_macos_text_zh}}{{end}}
+                {{end}}
+                {{or $macText (t $lang "landing.download_macos" "下载 macOS")}}
             </a>
         {{end}}
     </div>

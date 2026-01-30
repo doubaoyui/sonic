@@ -22,15 +22,29 @@
         <div class="content landing-content">
             <div class="landing-hero">
                 <div class="landing-hero-text">
-                    <h1 class="landing-title">{{or .settings.landing_headline .blog_title}}</h1>
-                    {{if .settings.landing_slogan}}
-                        <p class="landing-subtitle">{{.settings.landing_slogan}}</p>
+                    {{$lang := or .lang .blog_locale}}
+                    {{$headline := .settings.landing_headline}}
+                    {{$slogan := .settings.landing_slogan}}
+                    {{$note := .settings.landing_note}}
+                    {{if eq $lang "en"}}
+                        {{if .settings.landing_headline_en}}{{$headline = .settings.landing_headline_en}}{{end}}
+                        {{if .settings.landing_slogan_en}}{{$slogan = .settings.landing_slogan_en}}{{end}}
+                        {{if .settings.landing_note_en}}{{$note = .settings.landing_note_en}}{{end}}
+                    {{else}}
+                        {{if .settings.landing_headline_zh}}{{$headline = .settings.landing_headline_zh}}{{end}}
+                        {{if .settings.landing_slogan_zh}}{{$slogan = .settings.landing_slogan_zh}}{{end}}
+                        {{if .settings.landing_note_zh}}{{$note = .settings.landing_note_zh}}{{end}}
+                    {{end}}
+
+                    <h1 class="landing-title">{{or $headline .blog_title}}</h1>
+                    {{if $slogan}}
+                        <p class="landing-subtitle">{{$slogan}}</p>
                     {{end}}
                     {{template "caicai_anatole/module/download-buttons" .}}
-                    {{if .settings.landing_note}}
-                        <div class="landing-note">{{.settings.landing_note}}</div>
+                    {{if $note}}
+                        <div class="landing-note">{{$note}}</div>
                     {{else}}
-                        <div class="landing-note">{{t (or .lang .blog_locale) "landing.available_for" "Available for macOS, Linux, and Windows"}}</div>
+                        <div class="landing-note">{{t $lang "landing.available_for" "Available for macOS, Linux, and Windows"}}</div>
                     {{end}}
                 </div>
             </div>

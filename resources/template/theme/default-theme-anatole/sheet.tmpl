@@ -29,8 +29,15 @@
                     <div class="post animated fadeInDown">
                         <div class="landing-hero-text" style="padding: 26px 0 6px;">
                             {{template "caicai_anatole/module/download-buttons" .}}
-                            {{if .settings.landing_note}}
-                                <div class="landing-note">{{.settings.landing_note}}</div>
+                            {{$lang := or .lang .blog_locale}}
+                            {{$note := .settings.landing_note}}
+                            {{if eq $lang "en"}}
+                                {{if .settings.landing_note_en}}{{$note = .settings.landing_note_en}}{{end}}
+                            {{else}}
+                                {{if .settings.landing_note_zh}}{{$note = .settings.landing_note_zh}}{{end}}
+                            {{end}}
+                            {{if $note}}
+                                <div class="landing-note">{{$note}}</div>
                             {{end}}
                         </div>
                     </div>

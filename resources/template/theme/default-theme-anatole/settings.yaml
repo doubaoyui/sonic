@@ -285,6 +285,18 @@ landing:
       type: text
       data-type: string
       description: "不填则使用站点标题（blog_title）。"
+    landing_brand_name_zh:
+      name: landing_brand_name_zh
+      label: 【基础】左上角名称（中文，可选）
+      type: text
+      data-type: string
+      description: "中文环境下优先生效，未填写则回退到通用名称/站点标题。"
+    landing_brand_name_en:
+      name: landing_brand_name_en
+      label: 【基础】左上角名称（英文，可选）
+      type: text
+      data-type: string
+      description: "英文环境下优先生效，未填写则回退到通用名称/站点标题。"
 
     landing_headline:
       name: landing_headline
@@ -292,18 +304,54 @@ landing:
       type: textarea
       data-type: string
       description: "不填则使用站点标题（blog_title）。"
+    landing_headline_zh:
+      name: landing_headline_zh
+      label: 【Hero】大标题（中文，可选）
+      type: textarea
+      data-type: string
+      description: "中文环境下优先生效，未填写则回退到通用标题/站点标题。"
+    landing_headline_en:
+      name: landing_headline_en
+      label: 【Hero】大标题（英文，可选）
+      type: textarea
+      data-type: string
+      description: "英文环境下优先生效，未填写则回退到通用标题/站点标题。"
     landing_slogan:
       name: landing_slogan
       label: 【Hero】Slogan / 一句话介绍（可选）
       type: textarea
       data-type: string
       description: "显示在大标题下方的一句话介绍（支持多行）。"
+    landing_slogan_zh:
+      name: landing_slogan_zh
+      label: 【Hero】Slogan / 一句话介绍（中文，可选）
+      type: textarea
+      data-type: string
+      description: "中文环境下优先生效，未填写则回退到通用 Slogan。"
+    landing_slogan_en:
+      name: landing_slogan_en
+      label: 【Hero】Slogan / One-line intro（英文，可选）
+      type: textarea
+      data-type: string
+      description: "英文环境下优先生效，未填写则回退到通用 Slogan。"
     landing_note:
       name: landing_note
       label: 【Hero】按钮下方说明（可选）
       type: text
       data-type: string
       default: "Available for macOS and Windows"
+    landing_note_zh:
+      name: landing_note_zh
+      label: 【Hero】按钮下方说明（中文，可选）
+      type: text
+      data-type: string
+      description: "中文环境下优先生效，未填写则回退到通用说明。"
+    landing_note_en:
+      name: landing_note_en
+      label: 【Hero】按钮下方说明（英文，可选）
+      type: text
+      data-type: string
+      description: "英文环境下优先生效，未填写则回退到通用说明。"
 
     landing_download_windows_url:
       name: landing_download_windows_url
@@ -323,6 +371,18 @@ landing:
       type: text
       data-type: string
       default: "下载 Windows"
+    landing_download_windows_text_zh:
+      name: landing_download_windows_text_zh
+      label: 【下载按钮】Windows 按钮文案（中文，可选）
+      type: text
+      data-type: string
+      description: "中文环境下优先生效，未填写则回退到通用文案。"
+    landing_download_windows_text_en:
+      name: landing_download_windows_text_en
+      label: 【下载按钮】Windows 按钮文案（英文，可选）
+      type: text
+      data-type: string
+      description: "英文环境下优先生效，未填写则回退到通用文案。"
     landing_download_macos_url:
       name: landing_download_macos_url
       label: 【下载按钮】macOS 下载链接（兼容旧版，可不填）
@@ -341,6 +401,18 @@ landing:
       type: text
       data-type: string
       default: "下载 macOS"
+    landing_download_macos_text_zh:
+      name: landing_download_macos_text_zh
+      label: 【下载按钮】macOS 按钮文案（中文，可选）
+      type: text
+      data-type: string
+      description: "中文环境下优先生效，未填写则回退到通用文案。"
+    landing_download_macos_text_en:
+      name: landing_download_macos_text_en
+      label: 【下载按钮】macOS 按钮文案（英文，可选）
+      type: text
+      data-type: string
+      description: "英文环境下优先生效，未填写则回退到通用文案。"
 
     landing_download_macos_arm_url:
       name: landing_download_macos_arm_url
@@ -360,6 +432,18 @@ landing:
       type: text
       data-type: string
       default: "下载 macOS (M)"
+    landing_download_macos_arm_text_zh:
+      name: landing_download_macos_arm_text_zh
+      label: 【下载按钮】macOS (M 系列) 按钮文案（中文，可选）
+      type: text
+      data-type: string
+      description: "中文环境下优先生效，未填写则回退到通用文案。"
+    landing_download_macos_arm_text_en:
+      name: landing_download_macos_arm_text_en
+      label: 【下载按钮】macOS (M 系列) 按钮文案（英文，可选）
+      type: text
+      data-type: string
+      description: "英文环境下优先，未填写则回退到通用文案。"
 
     landing_download_macos_intel_url:
       name: landing_download_macos_intel_url
@@ -379,6 +463,18 @@ landing:
       type: text
       data-type: string
       default: "下载 macOS (Intel)"
+    landing_download_macos_intel_text_zh:
+      name: landing_download_macos_intel_text_zh
+      label: 【下载按钮】macOS (Intel) 按钮文案（中文，可选）
+      type: text
+      data-type: string
+      description: "中文环境下优先生效，未填写则回退到通用文案。"
+    landing_download_macos_intel_text_en:
+      name: landing_download_macos_intel_text_en
+      label: 【下载按钮】macOS (Intel) 按钮文案（英文，可选）
+      type: text
+      data-type: string
+      description: "英文环境下优先，未填写则回退到通用文案。"
 
     landing_top_button_url:
       name: landing_top_button_url
@@ -392,6 +488,18 @@ landing:
       type: text
       data-type: string
       default: "下载"
+    landing_top_button_text_zh:
+      name: landing_top_button_text_zh
+      label: 【顶部右侧按钮】按钮文案（中文，可选）
+      type: text
+      data-type: string
+      description: "中文环境下优先生效，未填写则回退到通用文案。"
+    landing_top_button_text_en:
+      name: landing_top_button_text_en
+      label: 【顶部右侧按钮】按钮文案（英文，可选）
+      type: text
+      data-type: string
+      description: "英文环境下优先生效，未填写则回退到通用文案。"
 
     landing_tab_help:
       name: landing_tab_help

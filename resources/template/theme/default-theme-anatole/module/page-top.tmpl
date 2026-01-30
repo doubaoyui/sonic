@@ -4,10 +4,17 @@
             <div class="landing-top-left">
                 <a class="landing-logo" href="{{.blog_url}}">
                     {{- $logo := or .settings.landing_brand_logo .blog_logo -}}
+                    {{$lang := or .lang .blog_locale}}
+                    {{$brandName := .settings.landing_brand_name}}
+                    {{if eq $lang "en"}}
+                        {{if .settings.landing_brand_name_en}}{{$brandName = .settings.landing_brand_name_en}}{{end}}
+                    {{else}}
+                        {{if .settings.landing_brand_name_zh}}{{$brandName = .settings.landing_brand_name_zh}}{{end}}
+                    {{end}}
                     {{- if $logo -}}
                         <img src="{{$logo}}" alt="logo"/>
                     {{- end -}}
-                    <span class="landing-site-title">{{or .settings.landing_brand_name .blog_title}}</span>
+                    <span class="landing-site-title">{{or $brandName .blog_title}}</span>
                 </a>
             </div>
 
@@ -28,8 +35,14 @@
                         <a class="lang-item" data-lang="en" href="{{.blog_url}}?lang=en">EN</a>
                     </div>
                     {{if .settings.landing_top_button_url}}
+                        {{$topBtnText := .settings.landing_top_button_text}}
+                        {{if eq $lang "en"}}
+                            {{if .settings.landing_top_button_text_en}}{{$topBtnText = .settings.landing_top_button_text_en}}{{end}}
+                        {{else}}
+                            {{if .settings.landing_top_button_text_zh}}{{$topBtnText = .settings.landing_top_button_text_zh}}{{end}}
+                        {{end}}
                         <a class="landing-top-button" href="{{.settings.landing_top_button_url}}" target="_blank" rel="noopener">
-                            {{or .settings.landing_top_button_text "Download"}}
+                            {{or $topBtnText "Download"}}
                         </a>
                     {{end}}
                 </div>
