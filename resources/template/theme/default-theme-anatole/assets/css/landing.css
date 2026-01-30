@@ -181,6 +181,12 @@ body::before {
   color: #6b6b6b;
 }
 
+.lang-icon {
+  display: inline-flex;
+  align-items: center;
+  color: #8b8b8b;
+}
+
 .lang-item {
   color: #6b6b6b;
   text-decoration: none;
@@ -201,6 +207,20 @@ body::before {
 
 .lang-sep {
   color: #b2b2b2;
+}
+
+@media (max-width: 640px) {
+  .landing-top-actions {
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  .lang-switch {
+    margin-left: auto;
+    background: rgba(0, 0, 0, 0.02);
+    padding: 4px 8px;
+    border-radius: 10px;
+  }
 }
 
 .landing-top-link {
