@@ -278,6 +278,14 @@ body::before {
 
   .landing-top-right {
     justify-self: end;
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .landing-top-left {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
   }
 }
 
