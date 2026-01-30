@@ -296,6 +296,12 @@ body::before {
   align-items: center;
 }
 
+.landing-btn-icon-os svg {
+  width: 14px;
+  height: 14px;
+  opacity: 0.8;
+}
+
 .landing-btn:active {
   transform: translateY(1px);
 }
