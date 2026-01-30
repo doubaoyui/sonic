@@ -288,6 +288,12 @@ body::before {
   font-weight: 600;
   text-decoration: none;
   transition: transform 0.08s ease, background-color 0.12s ease;
+  gap: 8px;
+}
+
+.landing-btn-icon {
+  display: inline-flex;
+  align-items: center;
 }
 
 .landing-btn:active {
