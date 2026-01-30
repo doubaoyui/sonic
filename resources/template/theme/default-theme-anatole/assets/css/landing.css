@@ -306,12 +306,13 @@ body::before {
 }
 
 .landing-btn-primary {
-  background: #1f5fd6;
-  color: #fff;
+  background: #eaf2ff;
+  color: #1f5fd6;
+  border: 1px solid #cfe0ff;
 }
 
 .landing-btn-primary:hover {
-  background: #1a53bf;
+  background: #e1ecff;
 }
 
 .landing-btn-secondary {
