@@ -7,19 +7,14 @@ check_and_copy() {
     fi
 }
 
-make_and_copy() {
-    mkdir -p /sonic/$1
-    cp -Rf /app/$1/* /sonic/$1/
-}
-
-make_and_copy 'resources/admin'
-make_and_copy 'resources/template/common'
-check_and_copy 'conf'
-check_and_copy 'resources/template/theme'
-
-# Ensure default theme metadata exists even if volume already has partial files.
-if [ ! -e /sonic/resources/template/theme/default-theme-anatole/theme.yml ]; then
-    mkdir -p /sonic/resources/template/theme/default-theme-anatole
-    cp -Rf /app/resources/template/theme/default-theme-anatole/* /sonic/resources/template/theme/default-theme-anatole/
+# Data-only directories (db/logs/uploads) live in the volume at /sonic.
+mkdir -p /data/logs /data/upload
+# Remove legacy persisted UI/theme assets (keeps host volume clean; assets come from the image).
+# Only remove the path we previously created by mistake.
+if [ -d /data/resources/admin ] || [ -d /data/resources/template ]; then
+    rm -rf /data/resources
 fi
+
+# Backward compatibility: older deployments may still point to /sonic/conf/config.yaml
+check_and_copy 'conf'
 

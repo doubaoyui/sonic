@@ -1,0 +1,29 @@
+server:
+  host: 0.0.0.0
+  port: 8080
+
+logging:
+  filename: sonic.log
+  level:
+    app: info
+    gorm: warn
+  maxsize: 10
+  maxage: 30
+  compress: false
+
+sqlite3:
+  enable: true
+  file: /data/sonic.db
+
+mysql:
+  dsn: username:password@tcp(host:port)/db_name?charset=utf8mb4&parseTime=True&loc=Local&interpolateParams=true
+
+sonic:
+  mode: "production"
+  # Persist only data (db/uploads/logs) to the host; keep templates/admin assets inside the image.
+  work_dir: "/data"
+  log_dir: "/data/logs"
+  upload_dir: "/data/upload"
+  template_dir: "/app/resources/template"
+  admin_resources_dir: "/app/resources/admin"
+  theme_dir: "/app/resources/template/theme"

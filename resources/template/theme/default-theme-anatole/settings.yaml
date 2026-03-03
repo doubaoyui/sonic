@@ -741,3 +741,257 @@ landing:
       label: 【展示Tabs】Tab 6 - 图片/视频地址（可选）
       type: attachment
       data-type: string
+
+pricing:
+  label: 定价页（积分）
+  items:
+    pricing_headline:
+      name: pricing_headline
+      label: 标题（支持 `中文||English`）
+      type: text
+      data-type: string
+      default: "定价||Pricing"
+    pricing_subtitle:
+      name: pricing_subtitle
+      label: 副标题（支持 `中文||English`）
+      type: textarea
+      data-type: string
+      default: "购买积分以解锁更多能力||Buy credits to unlock more capabilities"
+    pricing_note:
+      name: pricing_note
+      label: 说明（可选，支持 `中文||English`）
+      type: textarea
+      data-type: string
+      default: "购买后积分会显示在你的账户中||Credits will be added to your account after purchase"
+
+    pricing_plan_1_enabled:
+      name: pricing_plan_1_enabled
+      label: Plan 1 - 启用
+      type: radio
+      data-type: bool
+      default: true
+      options:
+        - value: true
+          label: 开启
+        - value: false
+          label: 关闭
+    pricing_plan_1_name:
+      name: pricing_plan_1_name
+      label: Plan 1 - 名称（支持 `中文||English`）
+      type: text
+      data-type: string
+      default: "免费||Free"
+    pricing_plan_1_price:
+      name: pricing_plan_1_price
+      label: Plan 1 - 价格（数字）
+      type: text
+      data-type: string
+      default: "0"
+    pricing_plan_1_currency:
+      name: pricing_plan_1_currency
+      label: Plan 1 - 币种（如 USD / CNY）
+      type: text
+      data-type: string
+      default: "USD"
+    pricing_plan_1_period:
+      name: pricing_plan_1_period
+      label: Plan 1 - 计费方式（支持 `中文||English`）
+      type: text
+      data-type: string
+      default: "一次性||One-time"
+    pricing_plan_1_credits:
+      name: pricing_plan_1_credits
+      label: Plan 1 - 积分数
+      type: text
+      data-type: string
+      default: "10"
+    pricing_plan_1_features:
+      name: pricing_plan_1_features
+      label: Plan 1 - 权益列表（每行一条，可写 `中文||English`）
+      type: textarea
+      data-type: string
+      default: |
+        10 credits free once||10 credits free once
+        130+ languages translation||130+ languages translation
+        1080P HD export quality||1080P HD export quality
+    pricing_plan_1_button_text:
+      name: pricing_plan_1_button_text
+      label: Plan 1 - 按钮文案（支持 `中文||English`）
+      type: text
+      data-type: string
+      default: "开始使用||Get Started"
+    pricing_plan_1_button_url:
+      name: pricing_plan_1_button_url
+      label: Plan 1 - 按钮链接（可选）
+      type: text
+      data-type: string
+      default: ""
+
+    pricing_plan_2_enabled:
+      name: pricing_plan_2_enabled
+      label: Plan 2 - 启用
+      type: radio
+      data-type: bool
+      default: true
+      options:
+        - value: true
+          label: 开启
+        - value: false
+          label: 关闭
+    pricing_plan_2_name:
+      name: pricing_plan_2_name
+      label: Plan 2 - 名称（支持 `中文||English`）
+      type: text
+      data-type: string
+      default: "基础||Basic"
+    pricing_plan_2_price:
+      name: pricing_plan_2_price
+      label: Plan 2 - 价格（数字）
+      type: text
+      data-type: string
+      default: "5"
+    pricing_plan_2_currency:
+      name: pricing_plan_2_currency
+      label: Plan 2 - 币种（如 USD / CNY）
+      type: text
+      data-type: string
+      default: "USD"
+    pricing_plan_2_period:
+      name: pricing_plan_2_period
+      label: Plan 2 - 计费方式（支持 `中文||English`）
+      type: text
+      data-type: string
+      default: "一次性||One-time"
+    pricing_plan_2_credits:
+      name: pricing_plan_2_credits
+      label: Plan 2 - 积分数
+      type: text
+      data-type: string
+      default: "60"
+    pricing_plan_2_features:
+      name: pricing_plan_2_features
+      label: Plan 2 - 权益列表（每行一条，可写 `中文||English`）
+      type: textarea
+      data-type: string
+      default: |
+        60 credits one-time purchase||60 credits one-time purchase
+        130+ languages translation||130+ languages translation
+        Precise lip-sync technology||Precise lip-sync technology
+        1080P HD export quality||1080P HD export quality
+    pricing_plan_2_button_text:
+      name: pricing_plan_2_button_text
+      label: Plan 2 - 按钮文案（支持 `中文||English`）
+      type: text
+      data-type: string
+      default: "立即购买||Buy Now"
+    pricing_plan_2_button_url:
+      name: pricing_plan_2_button_url
+      label: Plan 2 - 按钮链接（可选）
+      type: text
+      data-type: string
+      default: ""
+
+    pricing_plan_3_enabled:
+      name: pricing_plan_3_enabled
+      label: Plan 3 - 启用
+      type: radio
+      data-type: bool
+      default: true
+      options:
+        - value: true
+          label: 开启
+        - value: false
+          label: 关闭
+    pricing_plan_3_name:
+      name: pricing_plan_3_name
+      label: Plan 3 - 名称（支持 `中文||English`）
+      type: text
+      data-type: string
+      default: "专业||Pro"
+    pricing_plan_3_badge:
+      name: pricing_plan_3_badge
+      label: Plan 3 - 左上角徽标（可选，支持 `中文||English`）
+      type: text
+      data-type: string
+      default: "-20%||-20%"
+    pricing_plan_3_badge2:
+      name: pricing_plan_3_badge2
+      label: Plan 3 - 右上角徽标（可选，支持 `中文||English`）
+      type: text
+      data-type: string
+      default: "最受欢迎||Most Popular"
+    pricing_plan_3_highlight:
+      name: pricing_plan_3_highlight
+      label: Plan 3 - 高亮样式
+      type: radio
+      data-type: bool
+      default: true
+      options:
+        - value: true
+          label: 开启
+        - value: false
+          label: 关闭
+    pricing_plan_3_price:
+      name: pricing_plan_3_price
+      label: Plan 3 - 价格（数字）
+      type: text
+      data-type: string
+      default: "20"
+    pricing_plan_3_price_old:
+      name: pricing_plan_3_price_old
+      label: Plan 3 - 原价（可选）
+      type: text
+      data-type: string
+      default: "25"
+    pricing_plan_3_currency:
+      name: pricing_plan_3_currency
+      label: Plan 3 - 币种（如 USD / CNY）
+      type: text
+      data-type: string
+      default: "USD"
+    pricing_plan_3_period:
+      name: pricing_plan_3_period
+      label: Plan 3 - 计费方式（支持 `中文||English`）
+      type: text
+      data-type: string
+      default: "一次性||One-time"
+    pricing_plan_3_credits:
+      name: pricing_plan_3_credits
+      label: Plan 3 - 积分数
+      type: text
+      data-type: string
+      default: "300"
+    pricing_plan_3_features:
+      name: pricing_plan_3_features
+      label: Plan 3 - 权益列表（每行一条，可写 `中文||English`）
+      type: textarea
+      data-type: string
+      default: |
+        300 credits one-time purchase||300 credits one-time purchase
+        130+ languages translation||130+ languages translation
+        Precise lip-sync technology||Precise lip-sync technology
+        1080P HD export quality||1080P HD export quality
+    pricing_plan_3_button_text:
+      name: pricing_plan_3_button_text
+      label: Plan 3 - 按钮文案（支持 `中文||English`）
+      type: text
+      data-type: string
+      default: "立即购买||Buy Now"
+    pricing_plan_3_button_url:
+      name: pricing_plan_3_button_url
+      label: Plan 3 - 按钮链接（可选）
+      type: text
+      data-type: string
+      default: ""
+
+    pricing_plan_4_enabled:
+      name: pricing_plan_4_enabled
+      label: Plan 4 - 启用（可选）
+      type: radio
+      data-type: bool
+      default: false
+      options:
+        - value: true
+          label: 开启
+        - value: false
+          label: 关闭

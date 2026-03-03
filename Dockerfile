@@ -31,6 +31,14 @@ RUN --mount=type=cache,target=/go/pkg/mod \
   -ldflags="-s -w -X github.com/go-sonic/sonic/consts.SonicVersion=${SONIC_VERSION} -X github.com/go-sonic/sonic/consts.BuildCommit=${BUILD_COMMIT} -X github.com/go-sonic/sonic/consts.BuildTime=${BUILD_TIME}" \
   -trimpath .
 
+RUN cd /src/resources/template/theme/default-theme-anatole \
+  && find . -type f -print0 \
+  | sort -z \
+  | xargs -0 sha256sum \
+  | sha256sum \
+  | awk '{print $1}' \
+  > /src/resources/template/theme/default-theme-anatole/.sonic_build
+
 RUN mkdir -p /out/app \
   && cp /out/sonic /out/app/ \
   && cp -r /src/conf /out/app/ \

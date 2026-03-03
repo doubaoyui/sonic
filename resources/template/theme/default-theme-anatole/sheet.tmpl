@@ -4,7 +4,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>{{.sheet.Title}} - {{.blog_title}}</title>
+        {{$lang := or .lang .blog_locale}}
+        <title>{{i18nText $lang .sheet.Title}} - {{.blog_title}}</title>
         <meta name="apple-mobile-web-app-capable" content="yes"/>
         <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
         <meta name="format-detection" content="telephone=no"/>
@@ -45,12 +46,17 @@
             {{end}}
             <div class="post-page">
                 <div class="post animated fadeInDown">
-                        <div id="post-content" class="post-content markdown-body">
-                            {{noescape .sheet.Content}}
-                        </div>
+                        {{if eq .sheet.Slug "pricing"}}
+                            {{template "caicai_anatole/module/pricing-cards" .}}
+                        {{else}}
+                            <div id="post-content" class="post-content markdown-body">
+                                {{noescape (i18nBlock $lang .sheet.Content)}}
+                            </div>
+                        {{end}}
                     </div>
             </div>
         </div>
+        {{template "caicai_anatole/module/footer" .}}
     </div>
     {{template "caicai_anatole/module/highlightjs/scripts" .}}
     {{template "caicai_anatole/module/lightgallery/scripts" .}}

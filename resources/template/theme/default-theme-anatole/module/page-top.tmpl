@@ -22,7 +22,8 @@
                 <div class="landing-nav">
                     {{ $menus:=(listMenu)}}
                     {{range $menu:=$menus}}
-                        <a class="landing-nav-item" href="{{$menu.URL}}" target="{{$menu.Target}}">{{$menu.Name}}</a>
+                        {{$lang := or $.lang $.blog_locale}}
+                        <a class="landing-nav-item" href="{{$menu.URL}}" target="{{$menu.Target}}">{{i18nText $lang $menu.Name}}</a>
                     {{end}}
                 </div>
             </div>

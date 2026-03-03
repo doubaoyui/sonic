@@ -23,7 +23,7 @@ type MySQL struct {
 
 type SQLite3 struct {
 	Enable bool `mapstructure:"enable"`
-	File   string
+	File   string `mapstructure:"file"`
 }
 type Server struct {
 	Host string `mapstructure:"host"`
@@ -52,10 +52,10 @@ type Sonic struct {
 	Mode              string  `mapstructure:"mode"`
 	LogMode           LogMode `mapstructure:"log_mode"`
 	WorkDir           string  `mapstructure:"work_dir"`
-	UploadDir         string
+	UploadDir         string `mapstructure:"upload_dir"`
 	LogDir            string `mapstructure:"log_dir"`
 	TemplateDir       string `mapstructure:"template_dir"`
-	ThemeDir          string
-	AdminResourcesDir string
+	ThemeDir          string `mapstructure:"theme_dir"`
+	AdminResourcesDir string `mapstructure:"admin_resources_dir"`
 	AdminURLPath      string `mapstructure:"admin_url_path"`
 }

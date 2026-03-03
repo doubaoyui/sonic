@@ -313,19 +313,26 @@ func (i installServiceImpl) createEnterpriseSheets(ctx context.Context) error {
 		Title string
 	}
 	seeds := []sheetSeed{
-		{Slug: "download", Title: "Download"},
-		{Slug: "pricing", Title: "Pricing"},
-		{Slug: "docs", Title: "Docs"},
-		{Slug: "faq", Title: "FAQ"},
-		{Slug: "contact", Title: "Contact"},
-		{Slug: "about", Title: "About"},
+		{Slug: "download", Title: "下载||Download"},
+		{Slug: "pricing", Title: "定价||Pricing"},
+		{Slug: "docs", Title: "文档||Docs"},
+		{Slug: "faq", Title: "常见问题||FAQ"},
+		{Slug: "contact", Title: "联系||Contact"},
+		{Slug: "about", Title: "关于||About"},
+		// Stripe review essentials
+		{Slug: "terms", Title: "条款||Terms"},
+		{Slug: "privacy", Title: "隐私||Privacy"},
+		{Slug: "refund", Title: "退款||Refund"},
 	}
 	for _, s := range seeds {
 		originalContent := "## " + s.Title + "\n\n" +
-			"这是一个企业官网页面（初始化生成）。\n\n" +
-			"你可以在后台编辑此页面内容。"
+			"<!--lang:zh-->\n" +
+			"这是一个企业官网页面（初始化生成）。你可以在后台编辑此页面内容。\n\n" +
+			"<!--lang:en-->\n" +
+			"This is an auto-generated page for your company website. You can edit it in the admin panel.\n"
 		formatContent := "<h2>" + s.Title + "</h2>" +
-			"<p>这是一个企业官网页面（初始化生成）。你可以在后台编辑此页面内容。</p>"
+			"<!--lang:zh--><p>这是一个企业官网页面（初始化生成）。你可以在后台编辑此页面内容。</p>" +
+			"<!--lang:en--><p>This is an auto-generated page for your company website. You can edit it in the admin panel.</p>"
 		sheetParam := param.Sheet{
 			Title:           s.Title,
 			Status:          consts.PostStatusPublished,
@@ -353,13 +360,13 @@ func (i installServiceImpl) createEnterpriseMenu(ctx context.Context) error {
 	}
 
 	menus := []*param.Menu{
-		{Name: "Home", URL: "/", Priority: 1, Team: "main", Target: "_self"},
-		{Name: "Download", URL: "/download", Priority: 2, Team: "main", Target: "_self"},
-		{Name: "Pricing", URL: "/pricing", Priority: 3, Team: "main", Target: "_self"},
-		{Name: "Docs", URL: "/docs", Priority: 4, Team: "main", Target: "_self"},
-		{Name: "FAQ", URL: "/faq", Priority: 5, Team: "main", Target: "_self"},
-		{Name: "Contact", URL: "/contact", Priority: 6, Team: "main", Target: "_self"},
-		{Name: "About", URL: "/about", Priority: 7, Team: "main", Target: "_self"},
+		{Name: "首页||Home", URL: "/", Priority: 1, Team: "main", Target: "_self"},
+		{Name: "下载||Download", URL: "/download", Priority: 2, Team: "main", Target: "_self"},
+		{Name: "定价||Pricing", URL: "/pricing", Priority: 3, Team: "main", Target: "_self"},
+		{Name: "文档||Docs", URL: "/docs", Priority: 4, Team: "main", Target: "_self"},
+		{Name: "FAQ||FAQ", URL: "/faq", Priority: 5, Team: "main", Target: "_self"},
+		{Name: "联系||Contact", URL: "/contact", Priority: 6, Team: "main", Target: "_self"},
+		{Name: "关于||About", URL: "/about", Priority: 7, Team: "main", Target: "_self"},
 	}
 	for _, m := range menus {
 		_, err = i.MenuService.Create(ctx, m)
