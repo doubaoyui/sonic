@@ -1,0 +1,27 @@
+{{- define "caicai_anatole/module/footer" -}}
+  {{$lang := or .lang .blog_locale}}
+  {{/* Prefer theme setting, then global email settings, then fallback. */}}
+  {{$supportEmail := optStr .settings "support_email"}}
+  {{if eq $supportEmail ""}}
+    {{$supportEmail = optStr .options "email_username"}}
+  {{end}}
+  {{if eq $supportEmail ""}}
+    {{$supportEmail = "support@example.com"}}
+  {{end}}
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div class="site-footer-col">
+        <div class="site-footer-title">{{t $lang "footer.legal" "Legal"}}</div>
+        <a class="site-footer-link" href="/privacy">{{t $lang "footer.privacy" "Privacy Policy"}}</a>
+        <a class="site-footer-link" href="/terms">{{t $lang "footer.terms" "Terms of Use"}}</a>
+        <a class="site-footer-link" href="/refund">{{t $lang "footer.refund" "Refund Policy"}}</a>
+      </div>
+
+      <div class="site-footer-col">
+        <div class="site-footer-title">{{t $lang "footer.support" "Support"}}</div>
+        <a class="site-footer-link" href="mailto:{{$supportEmail}}">{{$supportEmail}}</a>
+        <a class="site-footer-link" href="/contact">{{t $lang "footer.contact" "Contact"}}</a>
+      </div>
+    </div>
+  </footer>
+{{- end -}}
