@@ -143,7 +143,7 @@ func (a *attachmentServiceImpl) Upload(ctx context.Context, fileHeader *multipar
 
 	record, err := attachmentDAL.WithContext(ctx).Where(attachmentDAL.Path.Eq(attachmentDTO.Path)).Take()
 	if record != nil && err == nil {
-		return nil, xerr.BadParam.New("附件路径为 " + attachmentDTO.Path + " 已经存在").
+		return nil, xerr.BadParam.New("附件路径为 %s 已经存在", attachmentDTO.Path).
 			WithStatus(xerr.StatusBadRequest).
 			WithMsg("附件路径为 " + attachmentDTO.Path + " 已经存在")
 	}
