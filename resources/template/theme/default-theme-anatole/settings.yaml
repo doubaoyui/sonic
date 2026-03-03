@@ -995,3 +995,13 @@ pricing:
           label: 开启
         - value: false
           label: 关闭
+
+footer:
+  label: 页脚（Footer）
+  items:
+    support_email:
+      name: support_email
+      label: 支持邮箱（显示在页脚）
+      type: text
+      data-type: string
+      default: ""
