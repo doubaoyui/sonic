@@ -93,9 +93,11 @@ body::before {
 
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* Fixed-ish card width + centered grid: 1/2/3 cards are always centered. */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 340px));
   gap: 18px;
   align-items: stretch;
+  justify-content: center;
   max-width: 1060px;
   margin: 22px auto 0;
 }
