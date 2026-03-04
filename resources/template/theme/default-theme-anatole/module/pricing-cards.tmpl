@@ -1,0 +1,103 @@
+{{- define "caicai_anatole/module/pricing-cards" -}}
+  {{$lang := or .lang .blog_locale}}
+
+  {{$headline := i18nText $lang (or .settings.pricing_headline "Pricing||Pricing")}}
+  {{$subtitle := i18nText $lang (or .settings.pricing_subtitle "一键翻译与配音，节省大量制作时间||One‑click translation and dubbing to save production time")}}
+  {{$note := i18nText $lang (or .settings.pricing_note "购买后积分会显示在你的账户中||Credits will be added to your account after purchase")}}
+
+  <section class="pricing">
+    <header class="pricing-header">
+      <h1 class="pricing-title">{{$headline}}</h1>
+      {{if $subtitle}}<p class="pricing-subtitle">{{$subtitle}}</p>{{end}}
+    </header>
+
+    <div class="pricing-grid">
+      {{range $i := until 4}}
+        {{$idx := add $i 1}}
+        {{$enabledKey := printf "pricing_plan_%d_enabled" $idx}}
+        {{$nameKey := printf "pricing_plan_%d_name" $idx}}
+        {{$badgeKey := printf "pricing_plan_%d_badge" $idx}}
+        {{$badge2Key := printf "pricing_plan_%d_badge2" $idx}}
+        {{$highlightKey := printf "pricing_plan_%d_highlight" $idx}}
+        {{$priceKey := printf "pricing_plan_%d_price" $idx}}
+        {{$priceOldKey := printf "pricing_plan_%d_price_old" $idx}}
+        {{$currencyKey := printf "pricing_plan_%d_currency" $idx}}
+        {{$periodKey := printf "pricing_plan_%d_period" $idx}}
+        {{$creditsKey := printf "pricing_plan_%d_credits" $idx}}
+        {{$featuresKey := printf "pricing_plan_%d_features" $idx}}
+        {{$btnTextKey := printf "pricing_plan_%d_button_text" $idx}}
+        {{$btnURLKey := printf "pricing_plan_%d_button_url" $idx}}
+
+        {{$enabled := index $.settings $enabledKey}}
+        {{if $enabled}}
+          {{$name := i18nText $lang (optStr $.settings $nameKey)}}
+          {{$badge := i18nText $lang (optStr $.settings $badgeKey)}}
+          {{$badge2 := i18nText $lang (optStr $.settings $badge2Key)}}
+          {{$highlight := index $.settings $highlightKey}}
+          {{$price := optStr $.settings $priceKey}}
+          {{$priceOld := optStr $.settings $priceOldKey}}
+          {{$currency := i18nText $lang (or (optStr $.settings $currencyKey) "USD")}}
+          {{$period := i18nText $lang (or (optStr $.settings $periodKey) (t $lang "pricing.one_time" "One‑time"))}}
+          {{$credits := optStr $.settings $creditsKey}}
+          {{$features := optStr $.settings $featuresKey}}
+          {{$btnText := i18nText $lang (or (optStr $.settings $btnTextKey) (t $lang "pricing.get_started" "Get Started"))}}
+          {{$btnURL := optStr $.settings $btnURLKey}}
+
+          <article class="pricing-card{{if $highlight}} is-highlight{{end}}">
+            <div class="pricing-card-top">
+              <div class="pricing-badges">
+                {{if $badge}}<span class="pricing-badge pricing-badge-discount">{{$badge}}</span>{{end}}
+                {{if $badge2}}<span class="pricing-badge pricing-badge-popular">{{$badge2}}</span>{{end}}
+              </div>
+              <div class="pricing-plan">{{$name}}</div>
+              <div class="pricing-price">
+                {{if $priceOld}}<span class="pricing-price-old">{{$currency}} {{$priceOld}}</span>{{end}}
+                <span class="pricing-price-main">
+                  <span class="pricing-price-num">{{$price}}</span>
+                  <span class="pricing-price-cur">{{$currency}}</span>
+                </span>
+                <div class="pricing-period">{{$period}}</div>
+              </div>
+              <div class="pricing-credits">
+                <div class="pricing-credits-num">{{$credits}}</div>
+                <div class="pricing-credits-label">{{t $lang "pricing.credits" "CREDITS"}}</div>
+              </div>
+            </div>
+
+            <div class="pricing-features">
+              {{if $features}}
+                <ul class="pricing-feature-list">
+                  {{range $line := splitList "\n" $features}}
+                    {{$item := trim $line}}
+                    {{if $item}}
+                      <li class="pricing-feature">
+                        <span class="pricing-check" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 6 9 17l-5-5"></path>
+                          </svg>
+                        </span>
+                        <span class="pricing-feature-text">{{i18nText $lang $item}}</span>
+                      </li>
+                    {{end}}
+                  {{end}}
+                </ul>
+              {{end}}
+            </div>
+
+            <div class="pricing-cta">
+              {{if $btnURL}}
+                <a class="pricing-btn{{if $highlight}} is-primary{{end}}" href="{{$btnURL}}" target="_blank" rel="noopener">{{$btnText}}</a>
+              {{else}}
+                <span class="pricing-btn is-disabled" aria-disabled="true">{{$btnText}}</span>
+              {{end}}
+            </div>
+          </article>
+        {{end}}
+      {{end}}
+    </div>
+
+    {{if $note}}
+      <div class="pricing-note">{{$note}}</div>
+    {{end}}
+  </section>
+{{- end -}}
